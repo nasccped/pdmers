@@ -1,0 +1,15 @@
+[package]
+name = "pdmers"
+version = "0.1.0"
+authors = ["nasccped <pdbt.contact@gmail.com>"]
+description = "A rust tool for PDF merging"
+repository = "https://github.com/nasccped/pdmers"
+license = "MIT"
+keywords = ["pdf", "cli", "merge", "documents"]
+categories = ["command-line-utilities"]
+exclude = [
+  "target/", ".git/", ".gitignore"
+]
+edition = "2024"
+
+[dependencies]
