@@ -1,5 +1,6 @@
 //! Utilities for the `pdmers` program.
 
+mod checkable;
 mod printable;
 mod runnable_item;
 
@@ -20,4 +21,11 @@ pub mod print {
 /// Provides a common trait to turn a type _"runnable"_ ([`RunnableItem`]).
 pub mod run {
     pub use super::runnable_item::RunnableItem;
+}
+
+/// # Check utilities
+///
+/// Provides the [`CheckableItem`] trait.
+pub mod check {
+    pub use super::checkable::CheckableItem;
 }
