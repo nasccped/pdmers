@@ -50,10 +50,12 @@ impl Printer {
     }
     /// Prints the item to `stderr` with a new line.
     pub fn errln<T: PrintableItem>(item: T) {
+        set_err_print(true);
         eprintln!("{}", item);
     }
     /// Prints the item to `stderr` WITHOUT new line.
     pub fn err<T: PrintableItem>(item: T) {
+        set_err_print(true);
         eprint!("{}", item);
     }
     /// Private function to handle [`PrintableTag`] printing (since this enum doesn't implement
@@ -78,7 +80,6 @@ impl Printer {
             func(m);
         }
         Self::blankln(1);
-        set_err_print(false);
     }
     /// Prints a blank line (to `stdout` or `stderr`, depending on `is_err` arg) `n` times. If `n`
     /// is 0, prints nothing.
