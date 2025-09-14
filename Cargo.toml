@@ -5,10 +5,11 @@ authors = ["nasccped <pdbt.contact@gmail.com>"]
 description = "A rust tool for PDF merging"
 repository = "https://github.com/nasccped/pdmers"
 license = "MIT"
+readme = "README.cratesio.md"
 keywords = ["pdf", "cli", "merge", "documents"]
 categories = ["command-line-utilities"]
 exclude = [
-  "target/", ".git/", ".gitignore"
+  "target/", ".git/", ".gitignore", "README.md"
 ]
 edition = "2024"
 
