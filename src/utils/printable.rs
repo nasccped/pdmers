@@ -1,24 +1,15 @@
 use colored::Colorize;
 
-/// Local bool to decide where to print [`Printer::blankln`].
-///
-/// This variable only changes within this module and it's not visible outside here.
-static mut ERR_PRINT: bool = false;
-
-/// Function used to change the [`ERR_PRINT`] value.
-fn set_err_print(value: bool) {
-    unsafe {
-        ERR_PRINT = value;
-    }
-}
+/// If the content should be printed to `stderr`.
+static mut PRINT_TO_STDERR: bool = false;
 
 /// Common object (`struct`) for printing at terminal (helps to avoid [`println`] calls
 /// indiscriminately).
 ///
 /// ## Panics
 ///
-/// All function within this struct will only fail if the panics occurs at the `stdout` access (if
-/// the print macros fails, the program will crash).
+/// All function within this struct will only fail if the panics occurs at the `std(out|err)` access
+/// or when trying to do `unsafe` access to local `PRINT_TO_STDERR` variable.
 ///
 /// ## Usage tips
 ///
@@ -37,60 +28,66 @@ fn set_err_print(value: bool) {
 /// If the item variable is an instance of a foreign type (ie, from a lib), you must implement this
 /// trait within the [`Printer`]'s [`self`] module or solve the trait system constraint with an
 /// intermediate trait/type.
+///
+/// The [`Printer`] will print to `stdout` by default. If redirects to `stderr` is needed, use the
+/// [`Printer::set_err`] function.
 pub struct Printer;
 
 impl Printer {
-    /// Prints the item to `stdout` with a new line.
-    pub fn outln<T: PrintableItem>(item: T) {
-        println!("{}", item);
+    /// Prints the item to `std(out|err)` WITH a new line.
+    pub fn echoln<T: PrintableItem>(item: T) {
+        unsafe {
+            if PRINT_TO_STDERR {
+                eprintln!("{}", item);
+            } else {
+                println!("{}", item);
+            }
+        }
     }
-    /// Prints the item to `stdout` WITHOUT new line.
-    pub fn out<T: PrintableItem>(item: T) {
-        print!("{}", item);
-    }
-    /// Prints the item to `stderr` with a new line.
-    pub fn errln<T: PrintableItem>(item: T) {
-        set_err_print(true);
-        eprintln!("{}", item);
-    }
-    /// Prints the item to `stderr` WITHOUT new line.
-    pub fn err<T: PrintableItem>(item: T) {
-        set_err_print(true);
-        eprint!("{}", item);
+    /// Prints the item to `std(out|err)` WITHOUT a new line.
+    pub fn echo<T: PrintableItem>(item: T) {
+        unsafe {
+            if PRINT_TO_STDERR {
+                eprint!("{}", item);
+            } else {
+                print!("{}", item);
+            }
+        }
     }
     /// Private function to handle [`PrintableTag`] printing (since this enum doesn't implement
     /// [`PrintableItem`]).
-    fn print_tag(tag: &PrintableTag) {
-        match tag {
-            PrintableTag::Error => eprint!("{tag} "),
-            _ => print!("{tag} "),
+    fn print_tag(tag: PrintableTag) {
+        unsafe {
+            if PRINT_TO_STDERR {
+                eprint!("{tag} ");
+            } else {
+                print!("{tag} ");
+            }
         }
     }
     /// Prints a tag title (similar to cargo's behavior) with an optional message.
     pub fn title<T: PrintableItem>(tag: PrintableTag, message: Option<T>) {
-        Self::print_tag(&tag);
-        let func = match tag {
-            PrintableTag::Error => {
-                set_err_print(true);
-                Self::err
-            }
-            _ => Self::out,
-        };
-        if let Some(m) = message {
-            func(m);
+        Self::print_tag(tag);
+        match message {
+            Some(m) => Self::echoln(m),
+            _ => Self::blankln(1),
         }
-        Self::blankln(1);
     }
-    /// Prints a blank line (to `stdout` or `stderr`, depending on `is_err` arg) `n` times. If `n`
-    /// is 0, prints nothing.
+    /// Prints a blank line `n` times. If `n` is 0, prints nothing.
     pub fn blankln(n: usize) {
         let content = "\n".repeat(n);
         unsafe {
-            if ERR_PRINT {
+            if PRINT_TO_STDERR {
                 eprint!("{content}");
             } else {
                 print!("{content}");
             }
+        }
+    }
+    /// Change the local `PRINT_TO_STDERR` variable (set printing to `std(out|err)`).
+    pub fn set_err(val: bool) {
+        unsafe {
+            PRINT_TO_STDERR = val;
         }
     }
 }
