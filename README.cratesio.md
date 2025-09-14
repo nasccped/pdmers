@@ -12,6 +12,13 @@ Download **pdmers** and merge it'all in a fancy way 🎉🎉🎉
 > [!NOTE]
 >
 > This project is under development. Check it's [official repository]
-> and stay tuned!
+> to get more info and stay tuned!
 
 [official repository]: https://github.com/nasccped/pdmers
+
+## Download
+
+Use the following command to download from cargo packages registry:
+```sh
+cargo install pdmers
+```
