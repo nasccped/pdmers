@@ -1,5 +1,15 @@
+use clap::Parser;
+mod cli;
+use std::process;
+mod runnable_items;
+mod utils;
+
+fn exit_with_code(code: i32) {
+    process::exit(code);
+}
 
 fn main() {
-    let turn_green = |x: &str| format!("\x1b[92m{x}\x1b[0m");
-    println!("Welcome to {}!", turn_green("pdmers"));
+    let app = cli::App::parse();
+    let exit = app.run_pdmers();
+    exit_with_code(exit.into());
 }
