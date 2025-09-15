@@ -1,6 +1,7 @@
 //! Utilities for the `pdmers` program.
 
 mod checkable;
+mod cli_tips;
 mod printable;
 mod runnable_item;
 
@@ -28,4 +29,11 @@ pub mod run {
 /// Provides the [`CheckableItem`] trait.
 pub mod check {
     pub use super::checkable::CheckableItem;
+}
+
+/// # Tips utilities
+///
+/// Common tips to be print at the terminal.
+pub mod tips {
+    pub use super::cli_tips::*;
 }
