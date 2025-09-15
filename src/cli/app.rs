@@ -39,29 +39,32 @@ impl App {
         };
         match subcommand {
             AppSubcommand::MergeSubcommand(args) => {
-                let merge = Merge::try_from(args);
-                if let Err(e) = merge {
-                    Printer::set_err(true);
-                    Printer::title(PrintableTag::Error, Some(e.clone()));
-                    Printer::blankln(1);
-                    match e {
-                        MergeBuildError::InputIsEmpty | MergeBuildError::OutputIsEmpty => {
-                            tips::merge_input_output();
-                        }
-                        MergeBuildError::UnparseableDepth(_) => {
-                            tips::merge_depth();
-                        }
-                        MergeBuildError::UnparseableOrderMode(_) => {
-                            tips::merge_order();
-                        }
-                        // allow this for future implementations
-                        #[allow(unreachable_patterns)]
-                        _ => todo!("Code must be implemented..."),
+                let _merge = match Merge::try_from(args) {
+                    Ok(m) => m,
+                    Err(e) => {
+                        Self::handle_merge_try_from_error(e);
+                        return AppOutput::Err;
                     }
-                    return AppOutput::Err;
-                }
+                };
             }
         }
         AppOutput::Ok
+    }
+
+    /// Print the suitable tip by a given [`MergeBuildError`] variant.
+    fn handle_merge_try_from_error(value: MergeBuildError) {
+        Printer::set_err(true);
+        Printer::title(PrintableTag::Error, Some(value.clone()));
+        Printer::blankln(1);
+        match value {
+            MergeBuildError::InputIsEmpty | MergeBuildError::OutputIsEmpty => {
+                tips::merge_input_output()
+            }
+            MergeBuildError::UnparseableDepth(_) => tips::merge_depth(),
+            MergeBuildError::UnparseableOrderMode(_) => tips::merge_order(),
+            // allow this for future implementations
+            #[allow(unreachable_patterns)]
+            _ => todo!("Code must be implemented..."),
+        }
     }
 }
