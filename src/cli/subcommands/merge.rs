@@ -1,23 +1,27 @@
-use clap::Args;
+use super::super::styles::APP_STYLE;
+use clap::Parser;
 
-#[derive(Args)]
+/// Arguments for pdf merging
+#[derive(Parser, Default, Debug, PartialEq)]
+#[command(
+    name = "pdmers",
+    author,
+    version = env!("CARGO_PKG_VERSION"),
+    about,
+    styles = APP_STYLE
+)]
 pub struct MergeArgs {
-    /// Inputs to be passed to our program. They're get as a [`Vec<String>`], then the
-    /// `--input file1 file2 file3` will works as expected (better than passing
-    /// `"file1, file2, file3"`). They're not required when the subcommand is called, but required
-    /// by the `Merge` runnable item (read [`crate::runnable_items`]), otherwise it'll fail at
-    /// [`crate::utils::check::CheckableItem`] trait's function.
+    /// PDF files to be merged.
     #[arg(
         long,
         short,
         num_args = 1..,
         value_delimiter = ' ',
         value_name = "FILES|DIRS",
-        help = "PDF files to be merged"
     )]
     pub input: Vec<String>,
 
-    /// Place merged inputs at.
+    /// Where to place the output file.
     #[arg(long, short, required = false)]
     pub output: Option<String>,
 
@@ -37,7 +41,14 @@ pub struct MergeArgs {
     #[arg(long, short)]
     pub parent: bool,
 
-    /// Order files by alphanumeric, datetime or default (input order)
+    /// Order files alphabetically, datetime or default (input order)
     #[arg(long, value_name = "ALPHA|DATETIME|DEF")]
     pub order_by: Option<String>,
+}
+
+impl MergeArgs {
+    /// Test if no args was passed.
+    pub fn is_empty_call(&self) -> bool {
+        &MergeArgs::default() == self
+    }
 }

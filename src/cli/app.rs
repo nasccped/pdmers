@@ -1,4 +1,4 @@
-use super::{app_output::AppOutput, styles::APP_STYLE, subcommands::AppSubcommand};
+use super::{app_output::AppOutput, subcommands::MergeArgs};
 use crate::{
     runnable_items::merge::{Merge, MergeBuildError},
     utils::{
@@ -8,46 +8,36 @@ use crate::{
 };
 use clap::Parser;
 
-/// App's entrypoint.
-#[derive(Parser)]
-#[command(
-    name = "pdmers",
-    author,
-    version = env!("CARGO_PKG_VERSION"),
-    about,
-    styles = APP_STYLE
-)]
-pub struct App {
-    /// Subcommands that the app can receives.
-    #[command(subcommand)]
-    subcommand: Option<AppSubcommand>,
-}
+pub struct App(pub MergeArgs);
 
 impl App {
+    /// Since the [`App`] is just a wrapper, we'll need a new parse for this object, calling the
+    /// [`MergeArgs`] parsing.
+    pub fn parse() -> Self {
+        Self(MergeArgs::parse())
+    }
+
     /// Function that actually runs this project (better than using `run` or `run_app` since they
     /// already exists).
     pub fn run_pdmers(self) -> AppOutput {
         Printer::title(PrintableTag::Warning, Some("this is a beta testing..."));
-        let subcommand = if let Some(s) = self.subcommand {
-            s
-        } else {
+        let cmd = self.0;
+        if cmd.is_empty_call() {
             Printer::set_err(true);
-            Printer::title(PrintableTag::Error, Some("no subcommand/flag provided"));
+            Printer::title(PrintableTag::Error, Some("no arguments provided"));
             Printer::blankln(1);
-            tips::no_subcommand();
+            tips::help_tip();
             return AppOutput::Err;
-        };
-        match subcommand {
-            AppSubcommand::MergeSubcommand(args) => {
-                let _merge = match Merge::try_from(args) {
-                    Ok(m) => m,
-                    Err(e) => {
-                        Self::handle_merge_try_from_error(e);
-                        return AppOutput::Err;
-                    }
-                };
-            }
         }
+
+        let _action = match Merge::try_from(cmd) {
+            Ok(v) => v,
+            Err(e) => {
+                Self::handle_merge_try_from_error(e);
+                return AppOutput::Err;
+            }
+        };
+
         AppOutput::Ok
     }
 
