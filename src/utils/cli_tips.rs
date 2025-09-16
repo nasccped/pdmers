@@ -1,12 +1,22 @@
 use super::print::Printer;
 use colored::Colorize;
 
+const POSSIBLE_VALUES_AND_DESC: [(&str, &str); 3] = [
+    ("alpha", "order input files alphabetically"),
+    ("datetime", "order inputs by most old to most recent"),
+    (
+        "def",
+        "default ordering (as passed to `\x1b[32m--input\x1b[0m` flag)",
+    ),
+];
+
 /// Tips for `--input` and `--output` flags usage.
 pub fn merge_input_output() {
     Printer::echoln("Input should be at least 1 directory path or 2 pdf file paths.");
+    Printer::echoln("Output should be at least 1 pdf file path.");
     Printer::echoln(format!(
         "Example: `{}`",
-        "pdmers merge -i integrals.pdf derivatives.pdf -o math.pdf".green()
+        "pdmers -i integrals.pdf derivatives.pdf -o math.pdf".green()
     ))
 }
 
@@ -25,23 +35,13 @@ pub fn merge_order() {
         "Possible values for `{}` flag are:",
         "--order-by".green()
     ));
-    let possible_values = [
-        ("alpha", "order input files alphabetically"),
-        ("datetime", "order inputs by most old to most recent"),
-        (
-            "def",
-            &format!(
-                "default ordering (as passed to `{}` flag)",
-                "--input".green()
-            ),
-        ),
-    ];
-    let as_string: String = possible_values
-        .iter()
-        .map(|(v, desc)| format!(" {} {} {desc}", v.cyan(), " ".repeat(8 - v.len())))
-        .collect::<Vec<_>>()
-        .join("\n");
-    Printer::echoln(as_string);
+    Printer::echoln(
+        POSSIBLE_VALUES_AND_DESC
+            .iter()
+            .map(|(v, desc)| format!(" {} {} {desc}", v.cyan(), " ".repeat(8 - v.len())))
+            .collect::<Vec<_>>()
+            .join("\n"),
+    );
     Printer::blankln(1);
     Printer::echoln(format!(
         "{}, if value not specified, '{}' will be used (default",
@@ -54,10 +54,10 @@ pub fn merge_order() {
     ));
 }
 
-/// Tips when no subcommand is provided.
-pub fn no_subcommand() {
+/// Tips when no args provided.
+pub fn help_tip() {
     Printer::echoln(format!(
-        "consider using `{}` to get usage tips!",
+        "Try using `{}` to get usage tips!",
         "pdmers --help".green()
     ));
 }
