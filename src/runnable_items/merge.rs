@@ -302,10 +302,10 @@ impl std::fmt::Display for MergeCheckError {
                         p.to_string_lossy().bright_cyan()
                     )
                 }
-                Self::ParentOutputWithoutFlag(_) => {
+                Self::ParentOutputWithoutFlag(p) => {
                     format!(
                         "output contains parent dir (`{}`)",
-                        "--parent".bright_green()
+                        p.to_string_lossy().bright_green()
                     )
                 }
             }
