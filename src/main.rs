@@ -1,9 +1,9 @@
-use clap::Parser;
 mod cli;
 use std::process;
 mod runnable_items;
 mod utils;
 
+/// Exits current process with a given `exit code` ([`i32`]).
 fn exit_with_code(code: i32) {
     process::exit(code);
 }
