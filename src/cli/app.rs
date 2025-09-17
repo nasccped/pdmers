@@ -1,7 +1,8 @@
 use super::{app_output::AppOutput, subcommands::MergeArgs};
 use crate::{
-    runnable_items::merge::{Merge, MergeBuildError},
+    runnable_items::merge::{Merge, MergeBuildError, MergeCheckError},
     utils::{
+        check::CheckableItem,
         print::{PrintableTag, Printer},
         tips,
     },
@@ -20,7 +21,6 @@ impl App {
     /// Function that actually runs this project (better than using `run` or `run_app` since they
     /// already exists).
     pub fn run_pdmers(self) -> AppOutput {
-        Printer::title(PrintableTag::Warning, Some("this is a beta testing..."));
         let cmd = self.0;
         if cmd.is_empty_call() {
             Printer::set_err(true);
@@ -30,13 +30,18 @@ impl App {
             return AppOutput::Err;
         }
 
-        let _action = match Merge::try_from(cmd) {
+        let action = match Merge::try_from(cmd) {
             Ok(v) => v,
             Err(e) => {
                 Self::handle_merge_try_from_error(e);
                 return AppOutput::Err;
             }
         };
+
+        if let Err(e) = action.check_item() {
+            Self::handle_merge_check_error(e);
+            return AppOutput::Err;
+        }
 
         AppOutput::Ok
     }
@@ -55,6 +60,25 @@ impl App {
             // allow this for future implementations
             #[allow(unreachable_patterns)]
             _ => todo!("Code must be implemented..."),
+        }
+    }
+
+    /// Print the suitable tip by a given [`MergeCheckError`] variant.
+    fn handle_merge_check_error(value: MergeCheckError) {
+        Printer::set_err(true);
+        Printer::title(PrintableTag::Error, Some(value.clone()));
+        Printer::blankln(1);
+        match value {
+            MergeCheckError::InputIsSingleFile(_)
+            | MergeCheckError::OutputIsDirectory(_)
+            | MergeCheckError::InputIsNotPdfFile(_)
+            | MergeCheckError::OutputIsNotPdfFile(_) => tips::merge_input_output(),
+            MergeCheckError::InputIsDirectoryReference(_)
+            | MergeCheckError::OutputIsDirectoryReference(_) => tips::directory_references(),
+            MergeCheckError::InputRepetitionWithoutFlag(_) => tips::repetition_flag(),
+            MergeCheckError::OutputAlreadyExists(_) => tips::override_flag(),
+            MergeCheckError::CouldNotReadOrCheckFilePath(_) => tips::non_readable_file_path(),
+            MergeCheckError::ParentOutputWithoutFlag(_) => tips::parent_flag_usage(),
         }
     }
 }
