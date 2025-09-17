@@ -108,3 +108,22 @@ pub fn override_flag() {
     Printer::echoln("If you're sure about what you're doing, use the");
     Printer::echoln(format!("`{}` flag.", "--override".green()));
 }
+
+/// Warn when path reading fails
+pub fn non_readable_file_path() {
+    Printer::echoln("This occurs when the program fails to read a file/dir");
+    Printer::echoln(format!(
+        "path due to {} or {} reasons.",
+        "timeout".red(),
+        "privileges".red()
+    ));
+}
+
+/// Tips for `--parent` flag usage
+pub fn parent_flag_usage() {
+    Printer::echoln("If the directory path to the output file doesn't exists,");
+    Printer::echoln("this fail will occur.");
+    Printer::blankln(1);
+    Printer::echoln("If you're sure about what you're doing, use");
+    Printer::echoln(format!("the `{}` flag.", "--parent".green()));
+}
