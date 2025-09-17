@@ -100,3 +100,11 @@ pub fn repetition_flag() {
     Printer::echoln("If you're sure about what you're doing, use the");
     Printer::echoln(format!("`{}` flag.", "--allow-repetition".green()));
 }
+
+/// Tips when `--override` flag is required.
+pub fn override_flag() {
+    Printer::echoln("This prevents from accidentaly override a pdf file");
+    Printer::blankln(1);
+    Printer::echoln("If you're sure about what you're doing, use the");
+    Printer::echoln(format!("`{}` flag.", "--override".green()));
+}
