@@ -13,10 +13,12 @@ const POSSIBLE_VALUES_AND_DESC: [(&str, &str); 3] = [
 /// Tips for `--input` and `--output` flags usage.
 pub fn merge_input_output() {
     Printer::echoln("Input should be at least 1 directory path or 2 pdf file paths.");
-    Printer::echoln("Output should be at least 1 pdf file path.");
+    Printer::echoln("Output must be a single pdf file path.");
+    Printer::blankln(1);
     Printer::echoln(format!(
-        "Example: `{}`",
-        "pdmers -i integrals.pdf derivatives.pdf -o math.pdf".green()
+        "{}: `{}`",
+        "ie".green(),
+        "pdmers -i integrals.pdf derivatives.pdf -o math.pdf".cyan()
     ))
 }
 
