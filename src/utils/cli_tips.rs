@@ -87,3 +87,16 @@ pub fn directory_references() {
         "input".cyan()
     ))
 }
+
+/// Tips when `--allow-repetition` flag is required.
+pub fn repetition_flag() {
+    Printer::echoln("This prevents duplicates content within the output");
+    Printer::echoln(format!(
+        "file (works both for {} and {} paths).",
+        "input".cyan(),
+        "file".cyan()
+    ));
+    Printer::blankln(1);
+    Printer::echoln("If you're sure about what you're doing, use the");
+    Printer::echoln(format!("`{}` flag.", "--allow-repetition".green()));
+}
