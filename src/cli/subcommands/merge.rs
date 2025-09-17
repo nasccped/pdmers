@@ -2,7 +2,7 @@ use super::super::styles::APP_STYLE;
 use clap::Parser;
 
 /// Arguments for pdf merging
-#[derive(Parser, Default, Debug, PartialEq)]
+#[derive(Parser, Default, Debug, PartialEq, Clone)]
 #[command(
     name = "pdmers",
     author,
@@ -50,5 +50,13 @@ impl MergeArgs {
     /// Test if no args was passed.
     pub fn is_empty_call(&self) -> bool {
         &MergeArgs::default() == self
+    }
+
+    /// Try parsing the CLI app from a given [`&str`] array. The parse fail will result into a
+    /// [`panic!`].
+    /* allow dead code since it only works within test module */
+    #[allow(dead_code)]
+    pub fn from_iter<const N: usize>(iter: [&str; N]) -> Self {
+        Self::parse_from(iter)
     }
 }
