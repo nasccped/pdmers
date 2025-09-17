@@ -76,13 +76,7 @@ impl Printer {
     /// Prints a blank line `n` times. If `n` is 0, prints nothing.
     pub fn blankln(n: usize) {
         let content = "\n".repeat(n);
-        unsafe {
-            if PRINT_TO_STDERR {
-                eprint!("{content}");
-            } else {
-                print!("{content}");
-            }
-        }
+        Self::echo(content);
     }
     /// Change the local `PRINT_TO_STDERR` variable (set printing to `std(out|err)`).
     pub fn set_err(val: bool) {
