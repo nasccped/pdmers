@@ -61,3 +61,27 @@ pub fn help_tip() {
         "pdmers --help".green()
     ));
 }
+
+/// Tips when passing directory references.
+pub fn directory_references() {
+    Printer::echoln(format!(
+        "By default, directory references {} (this avoid path",
+        "aren't allowed".red()
+    ));
+    Printer::echoln("exploit and infinity directory traversal).");
+    Printer::blankln(1);
+    Printer::echoln(format!(
+        "You should avoid '{}' for current path. Just use the dir/file",
+        ".".cyan()
+    ));
+    Printer::echoln("name instead.");
+    Printer::blankln(1);
+    Printer::echoln(format!(
+        "{}: if you want to merge all PDFs of curdir, move they",
+        "ie".green()
+    ));
+    Printer::echoln(format!(
+        "    to a new directory and then use this dir as {}.",
+        "input".cyan()
+    ))
+}
