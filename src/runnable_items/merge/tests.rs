@@ -10,9 +10,9 @@ const OUTPUT_IS_DIR: [&str; 6] = ["merge", "-i", "file.pdf", "other.pdf", "-o", 
 const INPUT_DIRECTORY_REFERENCE: [&str; 6] =
     ["merge", "-i", "somedir/../this.pdf", "dir", "-o", "out.pdf"];
 const TOML_INPUT: [&str; 6] = ["merge", "-i", "pdf.pdf", "Cargo.toml", "-o", "out.pdf"];
-const INPUT_REPETITION: [&str; 6] = ["merge", "-i", "src", "src", "-o", "out.pdf"];
-const ALREADY_EXISTING_OUTPUT: [&str; 5] = ["merge", "-i", "src", "-o", "f.pdf"];
-const PARENT_OUTPUT: [&str; 5] = ["merge", "-i", "src", "-o", "some/f.pdf"];
+const INPUT_REPETITION: [&str; 8] = ["merge", "-i", "src", "src", "-o", "out.pdf", "-d", "*"];
+const ALREADY_EXISTING_OUTPUT: [&str; 7] = ["merge", "-i", "src", "-o", "f.pdf", "-d", "*"];
+const PARENT_OUTPUT: [&str; 7] = ["merge", "-i", "src", "-o", "some/f.pdf", "-d", "5"];
 
 #[test]
 fn merge_try_from() {
