@@ -9,10 +9,6 @@
 
 Download **pdmers** and merge it'all in a fancy way 🎉🎉🎉
 
-> [!NOTE]
->
-> This project is under development. Stay tuned!
-
 ## Requirements
 
 You'll need the rust toolkit to install this program:
