@@ -44,7 +44,7 @@ cd pdmers
 cargo install --path .
 ```
 
-### With `cargo`:
+### With `cargo`: _(easier)_
 
 - just use `install` subcommand
 
