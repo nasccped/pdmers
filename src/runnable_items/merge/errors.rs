@@ -59,6 +59,8 @@ pub enum MergeCheckError {
     CouldNotReadOrCheckFilePath(PathBuf),
     /// When output contains parent dir withou `--parent` flag.
     ParentOutputWithoutFlag(PathBuf),
+    /// When passing a directory as input without specifying a depth.
+    DepthNotSpecified,
 }
 
 impl std::fmt::Display for MergeCheckError {
@@ -110,9 +112,66 @@ impl std::fmt::Display for MergeCheckError {
                         p.to_string_lossy().bright_green()
                     )
                 }
+                Self::DepthNotSpecified => {
+                    "depth wasn't specified".into()
+                }
             }
         )
     }
 }
 
 impl PrintableItem for MergeCheckError {}
+
+/// Errors that can occur when running the merge actions.
+#[derive(Clone)]
+pub enum MergeRunError {
+    /// When entry reading returns [`Err`].
+    CouldNotReadEntry(PathBuf),
+    /// When there's implicit repetition without `--allow-repetition` flag.
+    PathRepetitionWithoutFlag(PathBuf),
+    /// When the searching entry doesn't exists.
+    EntryDoesNotExists(PathBuf),
+    /// When the PDF file can't be read (possibly [`lopdf`] inner bug, idk).
+    CouldNotLoadInput(PathBuf),
+    /// When the PDF file can't be saved (same as above).
+    CouldNotSaveTheOutput(PathBuf),
+    /// When the merging fails due to root page not found.
+    RootPageNotFound,
+    /// Self explanatory.
+    CatalogIsNone,
+}
+
+impl std::fmt::Display for MergeRunError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}",
+            match self {
+                Self::CouldNotReadEntry(p) => format!(
+                    "failed to read file/dir entry (`{}`)",
+                    p.to_string_lossy().bright_cyan()
+                ),
+                Self::PathRepetitionWithoutFlag(p) => format!(
+                    "entry repetition without allowing (`{}`)",
+                    p.to_string_lossy().bright_cyan()
+                ),
+                Self::EntryDoesNotExists(p) => format!(
+                    "file/dir entry doesn't exists (`{}`)",
+                    p.to_string_lossy().bright_cyan()
+                ),
+                Self::CouldNotLoadInput(p) => format!(
+                    "couldn't load input(s) as PDF file (`{}`)",
+                    p.to_string_lossy().bright_cyan()
+                ),
+                Self::CouldNotSaveTheOutput(p) => format!(
+                    "file/dir couldn't be saved (`{}`)",
+                    p.to_string_lossy().bright_cyan()
+                ),
+                Self::RootPageNotFound => "root page not found".into(),
+                Self::CatalogIsNone => "catalog is none".into(),
+            }
+        )
+    }
+}
+
+impl PrintableItem for MergeRunError {}
