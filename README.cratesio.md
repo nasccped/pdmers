@@ -7,7 +7,7 @@
 
 </div>
 
-Download **pdmers** and merge it'all in a fancy way 🎉🎉🎉
+Download **pdmers** and merge it all in a fancy way 🎉🎉🎉
 
 ## Download
 
