@@ -2,6 +2,7 @@
 
 mod checkable;
 mod cli_tips;
+pub mod path;
 mod printable;
 mod runnable_item;
 
