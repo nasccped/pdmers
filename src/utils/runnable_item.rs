@@ -38,5 +38,6 @@ pub trait RunnableItem {
     /// Run the item and return an output.
     fn run_item(self) -> Self::Output;
     /// Run the item (with an argument) and return an output.
+    #[allow(dead_code)]
     fn run_with_arg(self, arg: Self::ArgType) -> Self::Output;
 }
