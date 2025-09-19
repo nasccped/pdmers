@@ -127,3 +127,56 @@ pub fn parent_flag_usage() {
     Printer::echoln("If you're sure about what you're doing, use");
     Printer::echoln(format!("the `{}` flag.", "--parent".green()));
 }
+
+/// When PDF file handling (load + save) fails.
+pub fn could_not_handle_pdf() {
+    Printer::echoln(format!(
+        "This occurs when PDF file handling fails (within `{}`",
+        "lopdf".cyan()
+    ));
+    Printer::echoln("library).");
+    Printer::blankln(1);
+    Printer::echoln(format!("The reason can be {},", "bad formatting".red()));
+    Printer::echoln(format!(
+        "{} privileges, {} file, etc.",
+        "not enough".red(),
+        "empty".red()
+    ));
+    Printer::blankln(1);
+    Printer::echoln("If you think this is a bug, consider");
+    Printer::echoln(format!(
+        "opening a {} at {}",
+        "pull-request".cyan(),
+        "https://github.com/nasccped/pdmers".cyan()
+    ));
+}
+
+/// Tips for `--depth` usage.
+pub fn depth_flag_usage() {
+    Printer::echoln("This occurs when trying to access a directory");
+    Printer::echoln(format!(
+        "without specifying the `{}` flag.",
+        "--depth".green()
+    ));
+    Printer::blankln(1);
+    Printer::echoln(format!(
+        "The `{}` must always be greater than {}.",
+        "depth".green(),
+        "0".cyan()
+    ));
+    Printer::echoln(format!(
+        "The app will catch PDF files until the {}th layer.",
+        "N".cyan()
+    ));
+}
+
+/// When PDF saving fails.
+pub fn could_not_save_pdf() {
+    Printer::echoln(format!(
+        "This usually happens at '{}' privileges",
+        "not enough".red()
+    ));
+    Printer::echoln("environments.");
+    Printer::blankln(1);
+    Printer::echoln(format!("Can also be mem. issue {}", "._.".cyan()));
+}
