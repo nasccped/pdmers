@@ -11,8 +11,6 @@ pub enum MergeBuildError {
     OutputIsEmpty,
     /// When the depth input is "unparseable".
     UnparseableDepth(String),
-    /// When the order mode input is "unparseable".
-    UnparseableOrderMode(String),
 }
 
 impl std::fmt::Display for MergeBuildError {
@@ -25,10 +23,6 @@ impl std::fmt::Display for MergeBuildError {
                 MergeBuildError::OutputIsEmpty => "output path wasn't provided".into(),
                 MergeBuildError::UnparseableDepth(d) =>
                     format!("couldn't parse the `depth` value (`{}`)", d.bright_cyan()),
-                MergeBuildError::UnparseableOrderMode(o) => format!(
-                    "couldn't parse the `order_by` value (`{}`)",
-                    o.bright_cyan()
-                ),
             }
         )
     }

@@ -4,7 +4,6 @@
 //! into a runnable executor.
 mod depth;
 mod errors;
-mod order_mode;
 mod run_success;
 
 #[cfg(test)]
@@ -22,7 +21,6 @@ use crate::{
 use depth::Depth;
 pub use errors::*;
 use lopdf::{self, Bookmark, Document, Object, ObjectId};
-use order_mode::OrderMode;
 pub use run_success::RunSuccess;
 use std::{
     collections::{BTreeMap, HashSet},
@@ -48,8 +46,6 @@ pub struct Merge {
     depth: Depth,
     /// Create parent dirs of the output if not exists.
     parent: bool,
-    /// Merging order
-    order: OrderMode,
 }
 
 impl TryFrom<MergeArgs> for Merge {
@@ -62,7 +58,6 @@ impl TryFrom<MergeArgs> for Merge {
             allow_repetition,
             depth,
             parent,
-            order_by,
         } = value;
         let input = match input {
             x if x.is_empty() => Err(MergeBuildError::InputIsEmpty),
@@ -80,7 +75,6 @@ impl TryFrom<MergeArgs> for Merge {
         let depth = depth.map_or(Ok(Depth::default()), |d| {
             Depth::try_from(d.trim().to_string())
         })?;
-        let order = OrderMode::try_from(order_by)?;
         Ok(Merge {
             input,
             output,
@@ -88,7 +82,6 @@ impl TryFrom<MergeArgs> for Merge {
             repetition,
             depth,
             parent,
-            order,
         })
     }
 }

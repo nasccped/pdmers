@@ -40,10 +40,6 @@ pub struct MergeArgs {
     /// Creates parent directories of the output file (if they don't exists).
     #[arg(long, short)]
     pub parent: bool,
-
-    /// Order files alphabetically, datetime or default (input order)
-    #[arg(long, value_name = "ALPHA|DATETIME|DEF")]
-    pub order_by: Option<String>,
 }
 
 impl MergeArgs {

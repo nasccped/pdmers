@@ -4,15 +4,7 @@ use std::path::Path;
 const NO_INPUT: [&str; 3] = ["merge", "-o", "output.pdf"];
 const NO_OUTPUT: [&str; 3] = ["merge", "-i", "input.pdf"];
 const UNPARSEABLE_DEPTH: [&str; 7] = ["merge", "-i", "inputs", "-o", "some.pdf", "-d", "0"];
-const UNPARSEABLE_ORDER_MODE: [&str; 7] = [
-    "merge",
-    "-i",
-    "dir",
-    "-o",
-    "some.pdf",
-    "--order-by",
-    "invalid",
-];
+
 const SINGLE_FILE_INPUT: [&str; 5] = ["merge", "-i", "f.pdf", "-o", "out.pdf"];
 const OUTPUT_IS_DIR: [&str; 6] = ["merge", "-i", "file.pdf", "other.pdf", "-o", "src"];
 const INPUT_DIRECTORY_REFERENCE: [&str; 6] =
@@ -36,10 +28,6 @@ fn merge_try_from() {
         (
             MergeArgs::from_iter(UNPARSEABLE_DEPTH),
             MergeBuildError::UnparseableDepth("0".into()),
-        ),
-        (
-            MergeArgs::from_iter(UNPARSEABLE_ORDER_MODE),
-            MergeBuildError::UnparseableOrderMode("invalid".into()),
         ),
     ]
     .into_iter()

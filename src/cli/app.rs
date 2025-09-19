@@ -79,7 +79,6 @@ impl App {
                 tips::merge_input_output()
             }
             MergeBuildError::UnparseableDepth(_) => tips::merge_depth(),
-            MergeBuildError::UnparseableOrderMode(_) => tips::merge_order(),
             // allow this for future implementations
             #[allow(unreachable_patterns)]
             _ => todo!("Code must be implemented..."),
