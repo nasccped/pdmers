@@ -104,7 +104,7 @@ pub fn could_not_handle_pdf() {
     Printer::blankln(1);
     Printer::echoln(format!("The reason can be {},", "bad formatting".red()));
     Printer::echoln(format!(
-        "{} privileges, {} file, etc.",
+        "{} privileges, {} file/input, etc.",
         "not enough".red(),
         "empty".red()
     ));
