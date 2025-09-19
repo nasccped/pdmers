@@ -1,13 +1,15 @@
 use super::{app_output::AppOutput, subcommands::MergeArgs};
 use crate::{
-    runnable_items::merge::{Merge, MergeBuildError, MergeCheckError},
+    runnable_items::merge::{Merge, MergeBuildError, MergeCheckError, MergeRunError},
     utils::{
         check::CheckableItem,
         print::{PrintableTag, Printer},
+        run::RunnableItem,
         tips,
     },
 };
 use clap::Parser;
+use colored::Colorize;
 
 pub struct App(pub MergeArgs);
 
@@ -43,7 +45,28 @@ impl App {
             return AppOutput::Err;
         }
 
-        AppOutput::Ok
+        match action.run_item() {
+            Ok(success) => {
+                Printer::title(PrintableTag::Done, Some(success.clone()));
+                Printer::echoln("The files:");
+                Printer::blankln(1);
+                for f in success.files {
+                    Printer::echoln(format!(" - {}", f.to_string_lossy().cyan()));
+                }
+                Printer::blankln(1);
+                Printer::echoln(format!(
+                    "was {} merged into `{}`. (took {} second(s))",
+                    "successfully".green(),
+                    success.output.to_string_lossy().cyan(),
+                    format!("{:.3}", success.seconds).cyan()
+                ));
+                AppOutput::Ok
+            }
+            Err(e) => {
+                Self::handle_merge_run_error(e);
+                AppOutput::Err
+            }
+        }
     }
 
     /// Print the suitable tip by a given [`MergeBuildError`] variant.
@@ -79,6 +102,35 @@ impl App {
             MergeCheckError::OutputAlreadyExists(_) => tips::override_flag(),
             MergeCheckError::CouldNotReadOrCheckFilePath(_) => tips::non_readable_file_path(),
             MergeCheckError::ParentOutputWithoutFlag(_) => tips::parent_flag_usage(),
+            MergeCheckError::DepthNotSpecified => tips::depth_flag_usage(),
+        }
+    }
+
+    /// Print the suitable tip by a given [`MergeRunError`] variant.
+    fn handle_merge_run_error(value: MergeRunError) {
+        Printer::set_err(true);
+        Printer::title(PrintableTag::Error, Some(value.clone()));
+        if let MergeRunError::EntryDoesNotExists(_path) = value {
+            return;
+        }
+        Printer::blankln(1);
+        match value {
+            MergeRunError::CouldNotReadEntry(_) => {
+                tips::non_readable_file_path();
+            }
+            MergeRunError::PathRepetitionWithoutFlag(_) => {
+                tips::repetition_flag();
+            }
+            MergeRunError::CouldNotLoadInput(_)
+            | MergeRunError::RootPageNotFound
+            | MergeRunError::CatalogIsNone => {
+                tips::could_not_handle_pdf();
+            }
+            MergeRunError::CouldNotSaveTheOutput(_) => {
+                tips::could_not_save_pdf();
+            }
+            // This isn't necessarry since the function already stoped at this variant
+            MergeRunError::EntryDoesNotExists(_) => {}
         }
     }
 }
