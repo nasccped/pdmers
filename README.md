@@ -79,8 +79,6 @@ error: no arguments provided
 Try using `pdmers --help` to get usage tips!
 ```
 
-### Usage
-
 This app gets PDF files as input and generates a merged PDF file as
 output:
 
@@ -94,7 +92,7 @@ inputs => | do stuff | => output
         +--------------+
 ```
 
-#### Input
+### Input
 
 The `input` flag expects a list of file and/or directory paths:
 
@@ -112,7 +110,7 @@ $ pdmers -i file.pdf files-dir
 > otherwise it'll raise an `not-readable-entry` or
 > `non-existing-file` error.
 
-##### Composed paths
+#### Composed paths
 
 The program can't read paths that contains white-spaces (` `) because
 it separates input values by the space delimiter:
@@ -134,7 +132,7 @@ $ pdmers -i 'composed name file.pdf'
 In other words, this program can't deal with _compose-named_ paths
 and returns `error: input doesn't exists`.
 
-##### Path repetition
+#### Path repetition
 
 By default, the program doesn't allow path repetition:
 
@@ -162,7 +160,7 @@ flag:
 $ pdmers -i file.pdf file.pdf
 ```
 
-##### Passing directories
+#### Passing directories
 
 When passing directory(ies) as input, the program need to know how
 deep to catch files. You should use `depth` flag for this
@@ -185,7 +183,7 @@ $ pdmers -i layer-zero.pdf layer-one --depth 1
 > its alias (`-d`). It must be greater than `0` (since `0` means
 > curdir). Use `*` to represent _"no-depth"_ (all files ahead).
 
-##### Directory references
+#### Directory references
 
 The program doesn't allow directory references as input, like:
 `../outside-file.pdf` or `up-dir/../curdir-file.pdf`. This was
@@ -195,7 +193,7 @@ thought to avoid path/privileges exploiting.
 >
 > Current directory references (`.`) still works, btw!
 
-##### Input ordering
+#### Input ordering
 
 The merge order will follows the `input` flag's values. If any of
 values is a directory, it'll follows the `PathBuf::read_dir`
@@ -222,7 +220,7 @@ $ pdmers -i curdir.pdf inner
 > metadata (created + updated) reading isn't well supported on all
 > platforms.
 
-#### Output
+### Output
 
 The `output` flag means where to place the merged file. It must
 always be an `pdf` extension file:
@@ -239,7 +237,7 @@ $ pdmers -i some.pdf file.pdf --output output.txt
 >
 > You can use the flag alias (`-o`) too!
 
-##### Override
+#### Override
 
 If the output file path already exists, you can force save by using
 the `override` flag:
@@ -256,7 +254,7 @@ $ pdmers -i file1.pdf file2.pdf -o output.pdf
 $ pdmers -i file1.pdf file2.pdf -o output.pdf --override
 ```
 
-##### Parent dir
+#### Parent dir
 
 Placing the output file within a directory is allowed but it'll fail
 if the parents dirs doesn't exists. To force parent dirs + file
