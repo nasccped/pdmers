@@ -34,7 +34,7 @@ pub struct MergeArgs {
     pub allow_repetition: bool,
 
     /// Merge PDFs until reaches the `N` directory layer (use `*` to infinity).
-    #[arg(long, short, value_name = "N", required = false)]
+    #[arg(long, short, value_name = "N|*", required = false)]
     pub depth: Option<String>,
 
     /// Creates parent directories of the output file (if they don't exists).
