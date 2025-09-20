@@ -1,6 +1,12 @@
 <div align="center">
 
-# pdmers
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./images/dark-logo.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./images/light-logo.svg">
+    <img alt="pdmers. Merge it all in a fancy way!" src="./images/light-logo.svg">
+  </picture>
+</h1>
 
 [![crates io](https://img.shields.io/crates/v/pdmers.svg)](https://crates.io/crates/pdmers)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue?)](#)
@@ -281,3 +287,8 @@ You can also use the flag alias (`-p`)!
 ## License
 
 This project is under the [MIT](./LICENSE) license!
+
+The logo was developed by [me](https://github.com/nasccped) using
+[graphite](https://graphite.rs/) editor and it's under the
+[Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/)
+[![Creative Commons License BY-SA 4.0](https://licensebuttons.net/l/by-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-sa/4.0/).
