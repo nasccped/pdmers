@@ -17,9 +17,8 @@ Download **pdmers** and merge it all in a fancy way 🎉🎉🎉
 
 ## Requirements
 
-You'll need the rust toolkit to install this program:
-- rust compiler (`rustc`)
-- rust package manager (`cargo`)
+You'll need the rust toolkit (`rustc` compiler + `cargo` package
+manager) to install this program.
 
 > [!TIP]
 >
