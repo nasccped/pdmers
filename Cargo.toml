@@ -9,7 +9,13 @@ readme = "README.cratesio.md"
 keywords = ["pdf", "cli", "merge", "documents"]
 categories = ["command-line-utilities"]
 exclude = [
-  "target/", ".git/", ".gitignore", "README.md", "**/*.pdf", "images/"
+  "target/",
+  ".git/",
+  ".gitignore",
+  "README.md",
+  "**/*.pdf",
+  "images/light-logo.svg",
+  "images/dark-logo.svg",
 ]
 edition = "2024"
 
