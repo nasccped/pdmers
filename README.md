@@ -174,7 +174,7 @@ deep to catch files. You should use `depth` flag for this
 # ├ layer-one/ ----------> depth 1
 # │ ├ layer-two/ --------> depth 2
 # │ │ └ layer-two-file.pdf
-# │ └ layer-two-file.pdf
+# │ └ layer-one-file.pdf
 # └ layer-zero.pdf
 $ pdmers -i layer-zero.pdf layer-one --depth 1
 # the program will only catches the file path + all layer-one inner
