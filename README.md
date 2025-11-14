@@ -64,15 +64,14 @@ A rust tool for PDF merging
 Usage: pdmers.exe [OPTIONS]
 
 Options:
-  -i, --input <FILES|DIRS>...          PDF files to be merged
-  -o, --output <OUTPUT>                Where to place the output file
-      --override                       Override output file if it already exists
-      --allow-repetition               Pass same input twice
-  -d, --depth <N>                      Merge PDFs until reaches the `N` directory layer (use `*` to infinity)
-  -p, --parent                         Creates parent directories of the output file (if they don't exists)
-      --order-by <ALPHA|DATETIME|DEF>  Order files alphabetically, datetime or default (input order)
-  -h, --help                           Print help
-  -V, --version                        Print version
+  -i, --input <FILES|DIRS>...  PDF files to be merged
+  -o, --output <OUTPUT>        Where to place the output file
+      --override               Override output file if it already exists
+      --allow-repetition       Pass same input twice
+  -d, --depth <N|*>            Merge PDFs until reaches the `N` directory layer (use `*` to infinity)
+  -p, --parent                 Creates parent directories of the output file (if they don't exists)
+  -h, --help                   Print help
+  -V, --version                Print version
 ```
 
 `pdmers` enforces you to use an **option**, otherwise it'll print a
