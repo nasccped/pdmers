@@ -1,6 +1,6 @@
 [package]
 name = "pdmers"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["nasccped <pdbt.contact@gmail.com>"]
 description = "A rust tool for PDF merging"
 repository = "https://github.com/nasccped/pdmers"
