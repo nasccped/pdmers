@@ -161,7 +161,7 @@ flag:
 
 ```txt
 # this will work fine
-$ pdmers -i file.pdf file.pdf
+$ pdmers -i file.pdf file.pdf --allow-repetition
 ```
 
 #### Passing directories
